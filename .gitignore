@@ -30,6 +30,6 @@ move/blackjack/Move.lock
 move/blackjack/build
 
 # env files under the setup directory
-setup/*.env
+admin/*.env
 .publish.res.json
 .vercel

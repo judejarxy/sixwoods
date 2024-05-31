@@ -4,6 +4,17 @@ Enter the enchanted forest, where magical trees have been splitted into logs of 
 
 You win when your wood had the shortest retrieval time. To play, predict the fastest wood (out of a pack of 6) and stake your SUI. If you win, you get 6 times your stake.
 
+## How it Works
+
+In the single-player SixWoods, the player first chooses the wood position (between 0 to 5) on the UI. This is sent alongside with their stake and the BLS signature for their game randomness (signed with the forest or admin) to the play Move function. In this function, the randomness is used to generate six values (woods). Then comparison is done and the player is the winner if their pre-chosen wood position has the wood with the lowest value (retrieval time).
+
+SixWoods uses 3 input for generating the VRF input for randomness. They include:
+(1) The current global count of all SixWoods games. The counter is maintained in the forest data (admin) of the game.
+(2) The player's selected wood index / position for that particular game.
+(3) The player's CounterNFT for their games. This counter is also auto-incremented after each play.
+
+Given that a player predicts for only one wood (out of 6), their rewards are six times their stake. This is to reward players in the sense of lower odds and higher rewards.
+
 ## Sui SixWoods Modules
 
 A **Game** in SixWoods is an object that holds data about an "instance" of play by a user.
@@ -26,7 +37,7 @@ The UI can seemlessly create the Counter NFT for the user by including the count
 
 ## Admin
 
-1. cd into the setup/ directory: `cd admin/`
+1. cd into the admin/ directory: `cd admin/`
 2. install the npm dependencies with: `npm i`
 3. initialize your `environmental variables` based on the `Environment variables` section of the `admin/README.md` file
 4. Run the following:
@@ -68,4 +79,4 @@ The UI can seemlessly create the Counter NFT for the user by including the count
   - A Typescript project, with a ready-to-use:
     - environment variable (.env) file reading
     - Sui SDK integration
-    - [publish shell script](./setup/publish.sh)
+    - [publish shell script](./admin/publish.sh)
