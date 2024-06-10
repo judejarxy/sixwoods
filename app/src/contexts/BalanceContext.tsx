@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState, createContext } from 'react';
+import { useSui } from '@/hooks/useSui';
 import { ChildrenProps } from '@/types/ChildrenProps';
-import BigNumber from 'bignumber.js';
 import { useZkLogin } from '@mysten/enoki/react';
 import { MIST_PER_SUI } from '@mysten/sui.js/utils';
-import { useSui } from '@/hooks/useSui';
+import BigNumber from 'bignumber.js';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 export const useBalance = () => useContext(BalanceContext);
 
@@ -31,7 +31,7 @@ export const BalanceProvider = ({ children }: ChildrenProps) => {
 
   const handleRefreshBalance = async () => {
     if (!address) return;
-    
+
     setIsLoading(true);
     await suiClient
       .getBalance({

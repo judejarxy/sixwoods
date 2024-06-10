@@ -1,20 +1,56 @@
-import '../styles/globals.css';
-import { Inter } from 'next/font/google';
+'use client';
+
+import { Header } from '@/components/Header';
+import { BalanceProvider } from '@/contexts/BalanceContext';
 import { ChildrenProps } from '@/types/ChildrenProps';
-import { ProvidersAndLayout } from './ProvidersAndLayout';
+import { EnokiFlowProvider } from '@mysten/enoki/react';
+import { Chakra_Petch } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
+import '../styles/globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const chakraPetch = Chakra_Petch({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700']
+});
 
-export default function RootLayout({ children }: ChildrenProps) {
-  return (
-    <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/assets/sixwoods.png"></link>
-      </head>
-      <body className={inter.className}>
-        <ProvidersAndLayout>{children}</ProvidersAndLayout>
-      </body>
-    </html>
-  );
-}
+const RootLayout = ({ children }: ChildrenProps) => (
+  <html lang="en">
+    <head>
+      <link rel="manifest" href="/manifest.json" />
+      <link rel="icon" href="/assets/sixwoods.png"></link>
+      <title>SixWoods - Enter the Enchanted Forest</title>
+    </head>
+    <body className={chakraPetch.className}>
+      <EnokiFlowProvider apiKey={process.env.NEXT_PUBLIC_ENOKI_API_KEY!}>
+        <BalanceProvider>
+          <main className="min-h-screen w-screen text-white relative pt-20 px-8 pb-8 flex flex-col">
+            <video
+              autoPlay
+              muted
+              loop
+              poster="/assets/forest.jpg"
+              id="forest"
+              className="fixed bottom-0 right-0 min-w-full min-h-full  object-cover"
+              style={{ zIndex: -1 }}
+            >
+              <source src="/assets/forest.mp4" type="video/mp4"></source>
+            </video>
+            <Header />
+            <div className="flex-1 flex flex-col justify-center items-start w-full max-w-screen-lg mx-auto">
+              {children}
+            </div>
+            <p className="text-right md:text-xl w-full max-w-screen-lg mx-auto">
+              PREDICT&nbsp;.&nbsp;STAKE&nbsp;.&nbsp;WIN&nbsp;.&nbsp;
+            </p>
+            <Toaster
+              position="bottom-center"
+              toastOptions={{ duration: 5000 }}
+            />
+          </main>
+        </BalanceProvider>
+      </EnokiFlowProvider>
+    </body>
+  </html>
+);
+
+export default RootLayout;

@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import { Spinner } from "@/components/general/Spinner";
-import { useAuthCallback } from "@mysten/enoki/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Spinner } from '@/components/Spinner';
+import { useAuthCallback } from '@mysten/enoki/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const AuthPage = () => {
   const router = useRouter();
-  const { handled, state } = useAuthCallback();
+  const { handled } = useAuthCallback();
 
   useEffect(() => {
-    if (handled) {
-      router.push("/");
-    }
+    if (handled) router.push('/play');
   }, [handled]);
 
   return <Spinner />;

@@ -1,63 +1,25 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useSixWoodsGame } from '@/hooks/useSixWoodsGame';
-import { Spinner } from '../components/general/Spinner';
-import { SignInWelcome } from '../components/home/SignInWelcome';
-import { useZkLogin } from '@mysten/enoki/react';
-import { useBalance } from '@/contexts/BalanceContext';
-import BigNumber from 'bignumber.js';
-import { SetupGame } from '@/components/home/SetupGame';
-import { PlayGame } from '@/components/home/PlayGame';
+import { Button } from '@/components/Button';
+import { useRouter } from 'next/navigation';
 
 const HomePage = () => {
-  const { address } = useZkLogin();
-  const { balance, handleRefreshBalance } = useBalance();
-  const {
-    game,
-    isLoading,
-    isPlaying,
-    counterId,
-    isCounterIdLoading,
-    isCreateCounterLoading,
-    handleCreateCounter,
-    handlePlay,
-    handleRestart
-  } = useSixWoodsGame();
-
-  useEffect(() => {
-    setTimeout(() => {
-      handleRefreshBalance();
-    }, 2000);
-  }, [game?.status]);
-
-  if (!address) {
-    return <SignInWelcome />;
-  }
-
-  if (isCounterIdLoading) {
-    return <Spinner />;
-  }
-
-  if (balance.isLessThan(BigNumber(0.5)) || !counterId) {
-    return (
-      <SetupGame
-        balance={balance}
-        counterId={counterId}
-        handleCreateCounter={handleCreateCounter}
-        isCreateCounterLoading={isCreateCounterLoading}
-        isLoading={isLoading}
-      />
-    );
-  }
+  const router = useRouter();
 
   return (
-    <PlayGame
-      game={game}
-      play={handlePlay}
-      isPlaying={isPlaying}
-      restart={handleRestart}
-    />
+    <>
+      <div className="text-5xl sm:text-7xl mb-4 leading-snug sm:leading-tight sm:mb-8">
+        Enter
+        <br />
+        the Enchanted
+        <br /> Forest
+      </div>
+      <Button
+        onClick={() => router.push('/play')}
+        svg="arrow-right-black"
+        text="PLAY NOW"
+      />
+    </>
   );
 };
 
