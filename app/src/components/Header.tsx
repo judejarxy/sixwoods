@@ -1,4 +1,5 @@
 import { UserProfileMenu } from '@/components/UserProfileMenu';
+import { useGameAudio } from '@/contexts/GameAudioContext';
 import { useZkLogin } from '@mysten/enoki/react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import Image from 'next/image';
@@ -7,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export const Header = () => {
+  const { isPlaying, toggleAudio } = useGameAudio();
   const router = useRouter();
   const pathname = usePathname();
   const { address } = useZkLogin();
@@ -23,12 +25,12 @@ export const Header = () => {
 
   return (
     <header className="fixed h-fit top-0 left-0 right-0 px-8 bg-inherit py-4  z-10">
-      <div className="w-full max-w-screen-lg mx-auto flex justify-between  items-center">
-        <Link href="/" className="text-2xl font-bold">
+      <div className="w-full max-w-screen-lg mx-auto flex items-center">
+        <Link href="/" className="text-2xl font-bold grow">
           SIXWOODS
         </Link>
 
-        <nav className="hidden sm:flex  justify-end items-center  space-x-4 md:space-x-8 md:text-xl">
+        <nav className="hidden sm:flex justify-end items-center  space-x-4 md:space-x-8 md:text-xl">
           <Link
             href="/"
             className={`link ${pathname === '/' ? 'underline' : ''}`}
@@ -98,6 +100,19 @@ export const Header = () => {
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
+
+        <button
+          className="ml-4 md:ml-8"
+          aria-label={`${isPlaying ? 'Pause' : 'Play'} Audio`}
+          onClick={toggleAudio}
+        >
+          <Image
+            src={`/assets/audio-${isPlaying ? 'muted' : 'playing'}.svg`}
+            alt={`${isPlaying ? 'Pause' : 'Play'} Audio`}
+            width={24}
+            height={24}
+          />
+        </button>
       </div>
     </header>
   );
